@@ -1,17 +1,50 @@
 import React from 'react';
-import {Platform, Text, TextInput, TouchableOpacity , View, StyleSheet, SafeAreaView} from 'react-native';
+import {FlatList, Platform, Text, TextInput, TouchableOpacity , View, StyleSheet, SafeAreaView} from 'react-native';
+
+interface Task{
+  id: string;
+  title: string;
+}
 
 export const Home = () => {
+  const [newTask, setNewTask] = React.useState('');
+  const [tasks, setTasks] = React.useState<Task[]>([]);
+
+  const handleAddNewTasks = () =>{
+    const data = {
+      id: String(new Date().getTime()),
+      title: newTask ? newTask : 'Task empty',
+    };
+
+    setTasks([...tasks, data]);
+  };
+
+
   return(
     <SafeAreaView style={styles.safeAre}>
       <View style={styles.container}>
         <Text style={styles.title}>Welcome, Dev!</Text>
-        <TextInput placeholderTextColor="#555" placeholder='Nova tarefa...' style={styles.input} />
-        <TouchableOpacity activeOpacity={0.7} style={styles.button}>
+        <TextInput
+          onChangeText={setNewTask}
+          placeholderTextColor="#555"
+          placeholder='Nova tarefa...'
+          style={styles.input} />
+        <TouchableOpacity onPress={handleAddNewTasks} activeOpacity={0.7} style={styles.button}>
           <Text style={styles.buttonText}>Adicionar</Text>
         </TouchableOpacity>
 
         <Text style={styles.titleTasks}>Minhas Tarefas</Text>
+
+
+        <FlatList
+          data={tasks}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <TouchableOpacity style={styles.buttonTask}>
+              <Text style={styles.titleTask}>{item.title}</Text>
+            </TouchableOpacity>
+          )}
+        />
       </View>
     </SafeAreaView>
   );
@@ -59,5 +92,17 @@ const styles = StyleSheet.create({
     color: '#121214',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  buttonTask:{
+    backgroundColor: '#29292e',
+    padding: 10,
+    borderRadius: 50,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  titleTask:{
+    color: '#f1f1f1',
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 });
