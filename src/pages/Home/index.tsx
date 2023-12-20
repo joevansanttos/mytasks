@@ -6,13 +6,15 @@ import { TasksContext } from '../../context/TasksContext';
 
 export const Home = () => {
   const [newTask, setNewTask] = React.useState('');
-  const tasks = React.useContext(TasksContext)
+  const {addTask} = React.useContext(TasksContext)
 
   const handleAddNewTasks = () =>{
     const data = {
       id: String(new Date().getTime()),
       title: newTask ? newTask : 'Task empty',
     };
+
+    addTask();
   };
 
 
