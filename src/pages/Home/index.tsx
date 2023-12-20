@@ -1,23 +1,18 @@
 import React from 'react';
 import {Platform, Text, TextInput, TouchableOpacity , View, StyleSheet, SafeAreaView} from 'react-native';
 import { TaskList } from '../../components/TaskList';
+import { TasksContext } from '../../context/TasksContext';
 
-interface Task{
-  id: string;
-  title: string;
-}
 
 export const Home = () => {
   const [newTask, setNewTask] = React.useState('');
-  const [tasks, setTasks] = React.useState<Task[]>([]);
+  const tasks = React.useContext(TasksContext)
 
   const handleAddNewTasks = () =>{
     const data = {
       id: String(new Date().getTime()),
       title: newTask ? newTask : 'Task empty',
     };
-
-    setTasks([...tasks, data]);
   };
 
 
@@ -36,7 +31,7 @@ export const Home = () => {
 
         <Text style={styles.titleTasks}>Minhas Tarefas</Text>
 
-        <TaskList tasks={tasks}/>
+        <TaskList />
       </View>
     </SafeAreaView>
   );
