@@ -1,12 +1,12 @@
 import React from 'react';
 import {Platform, Text, TextInput, TouchableOpacity , View, StyleSheet, SafeAreaView} from 'react-native';
 import { TaskList } from '../../components/TaskList';
-import { TasksContext } from '../../context/TasksContext';
+import { useTaskList } from '../../context/TasksContext';
 
 
 export const Home = () => {
   const [newTask, setNewTask] = React.useState('');
-  const {addTask} = React.useContext(TasksContext)
+  const {addTask} = useTaskList();
 
   const handleAddNewTasks = () =>{
     const data = {
